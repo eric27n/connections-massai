@@ -2,16 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Connections Solver</title>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <a href="/page2">Go to Page 2</a>
-    <form action="/action" method="post">
-        <button type="submit">Click me</button>
+    <h1>Connections Solver</h1>
+    <form method="POST">
+        <label for="words">Enter 16 words (comma-separated):</label><br>
+        <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."></textarea><br><br>
+        <button type="submit">Solve</button>
     </form>
-    {% if message %}
-        <p>{{ message }}</p>
+
+    {% if suggestions %}
+        <h2>Suggestions:</h2>
+        <ul>
+            {% for group in suggestions %}
+                <li>{{ group }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 </body>
 </html>
