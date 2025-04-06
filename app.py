@@ -67,36 +67,51 @@ def compute_similarity_matrix(model, words):
     return similarity_matrix
 
 def guess_best_combination(model, words, similarity_matrix=None, lives=4):
-    if len(words) == 4:
-        return [list(words) * lives]
-    words = [preprocess_word(word, model) for word in words]
-    words = [word for word in words if word in model]
+   if len(words) == 4:
+       return [list(words) * lives]
+   words = [preprocess_word(word, model) for word in words]
+   words = [word for word in words if word in model]
 
-    if len(words) < 4 or lives < 1:
-        return None
 
-    if similarity_matrix is None:
-        similarity_matrix = compute_similarity_matrix(model, words)
+   if len(words) < 4 or lives < 1:
+       return None
 
-    all_combinations = list(combinations(words, 4))
-    scored_combinations = []
 
-    for combination in all_combinations:
-        similarities = []
-        for i, word1 in enumerate(combination):
-            for j, word2 in enumerate(combination):
-                if i < j:
-                    similarities.append(similarity_matrix.get((word1, word2), similarity_matrix.get((word2, word1), 0)))
+   if similarity_matrix is None:
+       similarity_matrix = compute_similarity_matrix(model, words)
 
-        average_similarity = np.mean(similarities)
-        scored_combinations.append((combination, average_similarity))
 
-    # Sort combinations by average similarity in descending order
-    scored_combinations.sort(key=lambda x: x[1], reverse=True)
+   all_combinations = list(combinations(words, 4))
+   scored_combinations = []
 
-    # Return up to four attempts in descending order of similarity
-    top_guesses = [list(comb[0]) for comb in scored_combinations[:lives]]
-    return top_guesses
+
+   lambda_weight = 0.15 # Standard Deviation's impact on score
+
+
+   for combination in all_combinations:
+       similarities = []
+       for i, word1 in enumerate(combination):
+           for j, word2 in enumerate(combination):
+               if i < j:
+                   similarities.append(similarity_matrix.get((word1, word2), similarity_matrix.get((word2, word1), 0)))
+
+
+       average_similarity = np.mean(similarities)
+       standard_deviation = np.std(similarities)
+
+
+       #Penalize high variance in similarity scores
+       adjusted_score = average_similarity - lambda_weight * standard_deviation
+       scored_combinations.append((combination, adjusted_score))
+
+
+   # Sort combinations by average similarity in descending order
+   scored_combinations.sort(key=lambda x: x[1], reverse=True)
+
+
+   # Return up to four attempts in descending order of similarity
+   top_guesses = [list(comb[0]) for comb in scored_combinations[:lives]]
+   return top_guesses
 
 def aggregate_rankings(words, lives=4):
     ranking_scores = defaultdict(float)
