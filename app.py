@@ -119,5 +119,40 @@ def home():
         suggestions = aggregate_rankings(words, lives=100)
     return render_template("home.html", suggestions=suggestions)
 
+@app.route("/model1", methods=["GET", "POST"])
+def model1():
+    games = []
+    # read from json of model1 and format data into list that looks like 
+    # games = ["Game 1<br>[group_of_4_words_a] Correct/Incorrect<br>[group_of_4_words_b] Correct/Incorrect<br>[group_of_4_words_c] Correct/Incorrect<br>[group_of_4_words_d] Correct/Incorrect"]
+    return render_template("statistics.html", games=games, model_name="model1")
+
+@app.route("/model2", methods=["GET", "POST"])
+def model2():
+    games = []
+    # read from json of model2 and format data into list that looks like 
+    # games = ["Game 1<br>[group_of_4_words_a] Correct/Incorrect<br>[group_of_4_words_b] Correct/Incorrect<br>[group_of_4_words_c] Correct/Incorrect<br>[group_of_4_words_d] Correct/Incorrect"]
+    return render_template("statistics.html", games=games, model_name="model2")
+
+@app.route("/model3", methods=["GET", "POST"])
+def model3():
+    games = []
+    # read from json of model3 and format data into list that looks like 
+    # games = ["Game 1<br>[group_of_4_words_a] Correct/Incorrect<br>[group_of_4_words_b] Correct/Incorrect<br>[group_of_4_words_c] Correct/Incorrect<br>[group_of_4_words_d] Correct/Incorrect"]
+    return render_template("statistics.html", games=games, model_name="model3")
+
+@app.route("/model4", methods=["GET", "POST"])
+def model4():
+    games = []
+    # read from json of model4 and format data into list that looks like 
+    # games = ["Game 1<br>[group_of_4_words_a] Correct/Incorrect<br>[group_of_4_words_b] Correct/Incorrect<br>[group_of_4_words_c] Correct/Incorrect<br>[group_of_4_words_d] Correct/Incorrect"]
+    return render_template("statistics.html", games=games, model_name="model4")
+
+@app.route("/model5", methods=["GET", "POST"])
+def model5():
+    games = []
+    # read from json of model5 and format data into list that looks like 
+    # games = ["Game 1<br>[group_of_4_words_a] Correct/Incorrect<br>[group_of_4_words_b] Correct/Incorrect<br>[group_of_4_words_c] Correct/Incorrect<br>[group_of_4_words_d] Correct/Incorrect"]
+    return render_template("statistics.html", games=games, model_name="model5")
+
 if __name__ == "__main__":
     app.run(debug=True)

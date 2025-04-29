@@ -1,0 +1,75 @@
+body {
+    /* background-image: url("https://t4.ftcdn.net/jpg/02/10/45/95/360_F_210459536_XmLDEcKq2DpeNLVmheuWeu9NM9aGKnih.jpg"); */
+    background-color: rgb(179, 167, 254);
+    background-size: cover;
+    /* background-color: rgba(0, 0, 0, 0.4); */
+    background-blend-mode: multiply;
+    text-align: center;
+}
+
+.title {
+    background-color: rgb(247, 247, 247);
+    font-size: 3em;
+    font-family: "Roboto Slab", serif;
+    font-weight: 700;
+    margin: -10px;
+    border-radius: 0px;
+    padding: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.blurb {
+    /* background-color: #ffffff; */
+    border-radius: 20px;
+    margin: 30px;
+    padding: 20px;
+    text-align: center;
+    padding-top: 5px;
+    width: fit-content;
+}
+
+.subheading {
+    font-size: 1.5em;
+}
+
+.suggestions-blurb {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    margin: 30px;
+    padding: 20px;
+    width: 60%;
+}
+
+.suggestion {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+
+.words-submission-textbox {
+    width: 60%;
+    padding: 50px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+}
+
+.button {
+    background-color: black;
+    color: white ;
+    border: none;
+    font-size: 1em;
+    border-radius: 40px;
+    height: fit-content;
+    margin-top: 0px;
+    padding: 12px 45px;
+}
+
+.horizontally-center {
+    display: flex; 
+    justify-content: center; 
+    width: 100%;
+}

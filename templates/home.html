@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link href="stylesheet.css" rel="stylesheet">
     <title>Connections Solver</title>
 </head>
-<body>
-    <h1>Connections Solver</h1>
-    <form method="POST">
-        <label for="words">Enter 16 words (comma-separated):</label><br>
-        <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."></textarea><br><br>
-        <button type="submit">Solve</button>
-    </form>
 
-    {% if suggestions %}
-        <h2>Suggestions:</h2>
-        <ul>
-            {% for group in suggestions %}
-                <li>{{ group }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+<body>
+    <h2 class="title">Connections Solver</h1>
+        <div class="horizontally-center">
+            <form method="POST" class="blurb">
+                <h3 for="words" class="subheading">Enter 16 words (comma-separated):</h3><br>
+                <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."
+                    class="words-submission-textbox"></textarea><br><br>
+                <button type="submit" class="button">Solve</button>
+            </form>
+        </div>
+
+        <div class="horizontally-center">
+            <div class="suggestions-blurb">
+                {% if suggestions %}
+                <h3 class="subheading">Suggestions:</h3>
+                    {% for group in suggestions %}
+                    <p class="suggestion">{{ group }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <h3 class="subheading">Statistics</h3>
+            <div class="horizontally-center" style="gap: 50px">
+                <form action="/model1">
+                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model1</button>
+                </form>
+                <form action="/model2">
+                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black" >Model2</button>
+                </form>
+                <form action="/model3">
+                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model3</button>
+                </form>
+                <form action="/model4">
+                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model4</button>
+                </form>
+                <form action="/model5">
+                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model5</button>
+                </form>
+            </div>
+        </div>
 </body>
+
 </html>
