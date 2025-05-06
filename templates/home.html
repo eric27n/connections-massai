@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
-    <link href="stylesheet.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='stylesheet.css') }}" rel="stylesheet">
     <title>Connections Solver</title>
 </head>
 
 <body>
-    <h2 class="title">Connections Solver</h1>
+    <h2 class="title">Connections Solver</h2>
         <div class="horizontally-center">
             <form method="POST" class="blurb">
                 <h3 for="words" class="subheading">Enter 16 words (comma-separated):</h3><br>

@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
-    <link href="stylesheet.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='stylesheet.css') }}" rel="stylesheet">
     <title>Connections Solver</title>
 </head>
 
 <body>
-    <h2 class="title">Statistics for {{model_name}}</h1>
+    <h2 class="title">Statistics for {{model_name}}</h2>
         <div class="horizontally-center">
             <div class="blurb">
                 {% for game in games %}
-                <p class="suggestion">{{ game }}</p>
+                <div class="stats-game">{{game|safe}}</div>
                 {% endfor %}
             </div>
         </div>

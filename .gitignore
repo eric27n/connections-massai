@@ -1,3 +1,6 @@
 .env
 *.gz
 __pycache__/
+test.html
+stats/*.json
+stats_test_app.py
