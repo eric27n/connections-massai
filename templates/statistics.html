@@ -10,11 +10,11 @@
 </head>
 
 <body>
-    <h2 class="title">Statistics for {{model_name}}</h1>
+    <h2 class="title">Statistics for {{model_name}}</h2>
         <div class="horizontally-center">
             <div class="blurb">
                 {% for game in games %}
-                <p class="suggestion">{{ game }}</p>
+                <div class="stats-game">{{game|safe}}</div>
                 {% endfor %}
             </div>
         </div>
