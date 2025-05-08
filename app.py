@@ -6,6 +6,7 @@ from gensim.models import KeyedVectors
 import gensim.downloader as api
 from itertools import combinations
 import tempfile
+import json
 from collections import defaultdict
 
 app = Flask(__name__)
@@ -38,22 +39,22 @@ models = {
 
 # Preprocess words
 def preprocess_word(word, model):
-  """
-  Preprocess multi-word expressions (MWE) for accomodation by word2vec models.
+    """
+    Preprocess multi-word expressions (MWE) for accomodation by word2vec models.
 
-  Args:
-      word (str): The word to preprocess.
-      model (gensim.models.word2vec): The word2vec model to check for MWE.
+    Args:
+        word (str): The word to preprocess.
+        model (gensim.models.word2vec): The word2vec model to check for MWE.
 
-  Returns:
-      str: The preprocessed word.
-  """
-  mwe = re.sub(r'[-\s]', '_', word.lower())
-  
-  if mwe not in model:
-      mwe = re.sub(r'_', '', mwe)
-  
-  return mwe
+    Returns:
+        str: The preprocessed word.
+    """
+    mwe = re.sub(r'[-\s]', '_', word.lower())
+    
+    if mwe not in model:
+        mwe = re.sub(r'_', '', mwe)
+    
+    return mwe
 
 def compute_similarity_matrix(model, words):
     words = [preprocess_word(word, model) for word in words]
@@ -110,6 +111,52 @@ def aggregate_rankings(words, lives=4):
     sorted_guesses = sorted(ranking_scores.items(), key=lambda x: x[1], reverse=True)
     return [list(guess[0]) for guess in sorted_guesses[:lives]]
 
+def read_game_stats(filename):
+    with open("stats/" + filename, "r") as file:
+        data = json.load(file)
+
+    games = []
+    for game in data["games"]:
+        game_str = f'<div class="game-title"> {game["name"].capitalize()} </div>'
+        game_str += ", ".join(game["words"]) + '<br><br>'
+        game_str += '<div class="game-title">Guesses</div>'
+        for guess in game["guesses"]:
+            group_words = ", ".join(guess["words"])
+            emoji = "Invalid" if guess["invalid"] else ("✅" if guess["correct"] else "❌")
+            
+            formatted_line = (
+                '<div style="display: flex; justify-content: space-between; margin: 5px 0;">'
+                f'<span style="text-align: left;">{group_words}</span>'
+                f'<span style="text-align: right;">{emoji}</span>'
+                '</div>'
+            )
+
+            game_str += formatted_line
+            
+        game_str += '<br><div class="game-title">Answers</div>'
+        for answer in game["answers"]:
+            group_words = ", ".join(answer["words"])
+            difficulty = "🟨" 
+            if answer["difficulty"] == 1:
+                difficulty = "🟩"
+            elif answer["difficulty"] == 2:
+                difficulty = "🟦"
+            elif answer["difficulty"] == 3:
+                difficulty = "🟪"
+            category = answer["category"].capitalize()
+            
+            formatted_line = (
+                '<div style="display: flex; justify-content: space-between; margin: 5px 0;">'
+                f'<span style="text-align: left;">{group_words}</span>'
+                f'<span style="text-align: right;">{difficulty} {category}</span>'
+                '</div>'
+            )
+
+            game_str += formatted_line
+            
+        games.append(game_str)
+    return games
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     suggestions = None
@@ -118,6 +165,31 @@ def home():
         words = [word.strip() for word in words]
         suggestions = aggregate_rankings(words, lives=100)
     return render_template("home.html", suggestions=suggestions)
+
+@app.route("/model1", methods=["GET", "POST"])
+def model1():
+    games = read_game_stats("method1.json")
+    return render_template("statistics.html", games=games, model_name="model1")
+
+@app.route("/model2", methods=["GET", "POST"])
+def model2():
+    games = read_game_stats("method2.json")
+    return render_template("statistics.html", games=games, model_name="model2")
+
+@app.route("/model3", methods=["GET", "POST"])
+def model3():
+    games = read_game_stats("method3.json")
+    return render_template("statistics.html", games=games, model_name="model3")
+
+@app.route("/model4", methods=["GET", "POST"])
+def model4():
+    games = read_game_stats("method4.json")
+    return render_template("statistics.html", games=games, model_name="model4")
+
+@app.route("/model5", methods=["GET", "POST"])
+def model5():
+    games = read_game_stats("method5.json")
+    return render_template("statistics.html", games=games, model_name="model5")
 
 if __name__ == "__main__":
     app.run(debug=True)
