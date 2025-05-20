@@ -19,3 +19,5 @@ to properly run the Flask app. Refer to the Python notebook on how to get that
 downloaded. Make sure you do not include that file, the `.env` file, the 
 `__pycache__` folder (if applicable), and any other large/sensitive files in 
 your `.gitignore`.
+
+Our team won first place in the MassAI competition in Spring 25.
