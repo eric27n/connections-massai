@@ -197,21 +197,6 @@ def model2():
     games = read_game_stats("numberbatch.json")
     return render_template("statistics.html", games=games, model_name="Numberbatch")
 
-@app.route("/model3", methods=["GET", "POST"])
-def model3():
-    games = read_game_stats("method3.json")
-    return render_template("statistics.html", games=games, model_name="model3")
-
-@app.route("/model4", methods=["GET", "POST"])
-def model4():
-    games = read_game_stats("method4.json")
-    return render_template("statistics.html", games=games, model_name="model4")
-
-@app.route("/model5", methods=["GET", "POST"])
-def model5():
-    games = read_game_stats("method5.json")
-    return render_template("statistics.html", games=games, model_name="model5")
-
 if __name__ == "__main__":
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
         load_models()
