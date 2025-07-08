@@ -1,40 +1,57 @@
+import os
 from flask import Flask, render_template, request
 import numpy as np
-import gzip
 import re
 from gensim.models import KeyedVectors
 import gensim.downloader as api
 from itertools import combinations
-import tempfile
+import time
+import gzip
 import json
 from collections import defaultdict
 
 app = Flask(__name__)
 
-# Load models
-model_google = api.load('word2vec-google-news-300')
-model_glove = api.load('glove-wiki-gigaword-300')
-model_wiki = api.load('fasttext-wiki-news-subwords-300')
+def load_models():
+    global models 
+    
+    if not os.path.exists("numberbatch.bin"):
+        print("Extracting numberbatch.bin at " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + " ...")
+        gzipped_file_path = 'numberbatch-en-19.08.txt.gz'
+        txt_output_path = 'numberbatch-en-19.08.txt'
 
-gzipped_file_path = 'numberbatch-en-19.08.txt.gz'
-with gzip.open(gzipped_file_path, 'rt', encoding='utf-8') as f_in:
-    with tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8') as temp_file:
-        temp_file.write(f_in.read())
-        temp_file_path = temp_file.name
-model_numberbatch = KeyedVectors.load_word2vec_format(temp_file_path, binary=False)
+        with gzip.open(gzipped_file_path, 'rt', encoding='utf-8') as f_in:
+            with open(txt_output_path, 'w', encoding='utf-8') as f_out:
+                f_out.write(f_in.read())
+
+        model = KeyedVectors.load_word2vec_format(txt_output_path, binary=False)
+        model.save("numberbatch.bin")
+        os.remove(txt_output_path)
+        print("numberbatch.bin extracted and saved.")
+        
+    print("Loading models at " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + " ...")
+
+    model_google = api.load('word2vec-google-news-300')
+    model_glove = api.load('glove-wiki-gigaword-300')
+    model_wiki = api.load('fasttext-wiki-news-subwords-300')
+    model_numberbatch = KeyedVectors.load("numberbatch.bin")
+
+    models = {
+        "google": model_google,
+        "glove": model_glove,
+        "wiki": model_wiki,
+        "numberbatch": model_numberbatch
+    }
+    
+    print("Models loaded at " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+
+
 
 weights = {
     "google": 0.8366 / (0.8366 + 0.6980 + 1.2405 + 1.8192),
     "glove": 0.6980 / (0.8366 + 0.6980 + 1.2405 + 1.8192),
     "wiki": 1.2405 / (0.8366 + 0.6980 + 1.2405 + 1.8192),
     "numberbatch": 1.8192 / (0.8366 + 0.6980 + 1.2405 + 1.8192),
-}
-
-models = {
-    "google": model_google,
-    "glove": model_glove,
-    "wiki": model_wiki,
-    "numberbatch": model_numberbatch
 }
 
 # Preprocess words
@@ -162,19 +179,23 @@ def home():
     suggestions = None
     if request.method == "POST":
         words = request.form["words"].split(",")
+        exclusions = request.form["exclusions"].split(",")
         words = [word.strip() for word in words]
-        suggestions = aggregate_rankings(words, lives=100)
+        exclusions = [word.strip() for word in exclusions]
+        suggestions = aggregate_rankings(words, lives=1000)
+        suggestions = [list(filter(lambda x: x not in exclusions, suggestion)) for suggestion in suggestions]
+        suggestions = [suggestion for suggestion in suggestions if len(suggestion) == 4]
     return render_template("home.html", suggestions=suggestions)
 
 @app.route("/model1", methods=["GET", "POST"])
 def model1():
-    games = read_game_stats("method1.json")
-    return render_template("statistics.html", games=games, model_name="model1")
+    games = read_game_stats("gpt4o.json")
+    return render_template("statistics.html", games=games, model_name="GPT-4o")
 
 @app.route("/model2", methods=["GET", "POST"])
 def model2():
-    games = read_game_stats("method2.json")
-    return render_template("statistics.html", games=games, model_name="model2")
+    games = read_game_stats("numberbatch.json")
+    return render_template("statistics.html", games=games, model_name="Numberbatch")
 
 @app.route("/model3", methods=["GET", "POST"])
 def model3():
@@ -192,4 +213,6 @@ def model5():
     return render_template("statistics.html", games=games, model_name="model5")
 
 if __name__ == "__main__":
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        load_models()
     app.run(debug=True)

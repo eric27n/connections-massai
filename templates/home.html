@@ -4,52 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;300;400;700&display=swap"
+        rel="stylesheet">
     <link href="{{ url_for('static', filename='stylesheet.css') }}" rel="stylesheet">
     <title>Connections Solver</title>
 </head>
 
 <body>
     <h2 class="title">Connections Solver</h2>
-        <div class="horizontally-center">
-            <form method="POST" class="blurb">
-                <h3 for="words" class="subheading">Enter 16 words (comma-separated):</h3><br>
-                <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."
-                    class="words-submission-textbox"></textarea><br><br>
-                <button type="submit" class="button">Solve</button>
-            </form>
-        </div>
+    <div class="horizontally-center">
+        <form method="POST" class="blurb">
+            <h3 for="words" class="subheading">Enter 16 words (comma-separated):</h3><br>
+            <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."
+                class="words-submission-textbox"></textarea><br><br>
+            <input type="text" id="exclusions" name="exclusions" rows="4" cols="50"
+                placeholder="Exclusions (comma-separated):" class="words-submission-textbox"><br><br>
+            <button type="submit" class="button">Solve</button>
+        </form>
+    </div>
 
-        <div class="horizontally-center">
-            <div class="suggestions-blurb">
-                {% if suggestions %}
-                <h3 class="subheading">Suggestions:</h3>
-                    {% for group in suggestions %}
-                    <p class="suggestion">{{ group }}</p>
-                    {% endfor %}
-                {% endif %}
-            </div>
+    <div class="horizontally-center">
+        <div class="suggestions-blurb">
+            {% if suggestions %}
+            <h3 class="subheading">Suggestions:</h3>
+            {% for group in suggestions %}
+            <p class="suggestion">{{ group }}</p>
+            {% endfor %}
+            {% endif %}
         </div>
+    </div>
 
-        <h3 class="subheading">Statistics</h3>
-            <div class="horizontally-center" style="gap: 50px">
-                <form action="/model1">
-                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model1</button>
-                </form>
-                <form action="/model2">
-                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black" >Model2</button>
-                </form>
-                <form action="/model3">
-                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model3</button>
-                </form>
-                <form action="/model4">
-                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model4</button>
-                </form>
-                <form action="/model5">
-                    <button type="submit" class="button" style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model5</button>
-                </form>
-            </div>
-        </div>
+    <h3 class="subheading">Statistics</h3>
+    <div class="horizontally-center" style="gap: 50px">
+        <form action="/model1">
+            <button type="submit" class="button"
+                style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model1</button>
+        </form>
+        <form action="/model2">
+            <button type="submit" class="button"
+                style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model2</button>
+        </form>
+        <!-- <form action="/model3">
+            <button type="submit" class="button"
+                style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model3</button>
+        </form>
+        <form action="/model4">
+            <button type="submit" class="button"
+                style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model4</button>
+        </form>
+        <form action="/model5">
+            <button type="submit" class="button"
+                style="background-color: rgba(0,0,0,0); border: 2px solid black; color: black">Model5</button>
+        </form> -->
+    </div>
+    </div>
 </body>
 
 </html>
