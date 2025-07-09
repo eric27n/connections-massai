@@ -16,9 +16,10 @@
         <form method="POST" class="blurb">
             <h3 for="words" class="subheading">Enter 16 words (comma-separated):</h3><br>
             <textarea id="words" name="words" rows="4" cols="50" placeholder="e.g., snow, rain, hail, sleet, ..."
-                class="words-submission-textbox"></textarea><br><br>
+                class="words-submission-textbox">{{words_list_str}}</textarea><br><br>
             <input type="text" id="exclusions" name="exclusions" rows="4" cols="50"
-                placeholder="Exclusions (comma-separated):" class="words-submission-textbox"><br><br>
+                placeholder="Exclusions (comma-separated):" class="words-submission-textbox"
+                value="{{exclusions_list_str}}"><br><br>
             <button type="submit" class="button">Solve</button>
         </form>
     </div>

@@ -177,15 +177,19 @@ def read_game_stats(filename):
 @app.route("/", methods=["GET", "POST"])
 def home():
     suggestions = None
+    words_list_str = ""
+    exclusions_list_str = ""
     if request.method == "POST":
         words = request.form["words"].split(",")
         exclusions = request.form["exclusions"].split(",")
-        words = [word.strip() for word in words]
-        exclusions = [word.strip() for word in exclusions]
+        words_list_str = request.form["words"]
+        exclusions_list_str = request.form["exclusions"]
+        words = [word.strip() for word in words if word.strip()]
+        exclusions = [word.strip() for word in exclusions if word.strip()]
         suggestions = aggregate_rankings(words, lives=1000)
         suggestions = [list(filter(lambda x: x not in exclusions, suggestion)) for suggestion in suggestions]
         suggestions = [suggestion for suggestion in suggestions if len(suggestion) == 4]
-    return render_template("home.html", suggestions=suggestions)
+    return render_template("home.html", suggestions=suggestions, words_list_str=words_list_str, exclusions_list_str=exclusions_list_str)
 
 @app.route("/model1", methods=["GET", "POST"])
 def model1():
