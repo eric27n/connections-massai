@@ -24,7 +24,7 @@ Our team won first place in the MassAI competition in Spring 25.
 
 Made with ❤️ by
 
--   [Eric Nugnes](https://github.com/eric27n)
+-   [Eric Nunes](https://github.com/eric27n)
 -   [Keshav Garg](https://github.com/keshavgarg616)
 -   [Jonathan Liu](https://github.com/jonathanliu72)
 -   [Aarohee Gondkar](https://github.com/aarohee-he)
