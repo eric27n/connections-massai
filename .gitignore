@@ -2,8 +2,4 @@
 *.gz
 __pycache__/
 cache/
-test.html
-stats/*.json
-stats_test_app.py
 *.bin*
-temp.py
