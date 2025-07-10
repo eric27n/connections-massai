@@ -22,6 +22,21 @@ NOTE: You will need to have [`numberbatch-en-19.08.txt.gz`](https://conceptnet.s
 
 Our team won first place in the MassAI competition in Spring 25.
 
+-   Puzzle
+    ![puzzle](screenshots/puzzle.png)
+
+-   Group 1 (first try)
+    ![try1](screenshots/try1.png)
+
+-   Group 2 (second try)
+    ![try2](screenshots/try2.png)
+
+-   Group 3 (first try)
+    ![try3](screenshots/try3.png)
+
+-   Solved! :D
+    ![solved](screenshots/solved.png)
+
 Made with ❤️ by
 
 -   [Eric Nunes](https://github.com/eric27n)
